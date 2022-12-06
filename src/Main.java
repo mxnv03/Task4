@@ -1,21 +1,22 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("1 задание: " + bessie(7, "hello my name is Bessie and this is my essay")); // 1
         System.out.println();
-        System.out.print("2 задание: " + split("((()))"));
+        System.out.println("2 задание: " + split("((()))"));
         System.out.println("2 задание: " + split("()()()"));
         System.out.println("3 задание: " + toCamelCase("hello_edabit"));
         System.out.println("3 задание: " + toSnakeCase("getColor"));
         System.out.println("4 задание: " + overTime(new double[] {9, 17, 30, 1.5}));
         System.out.println("5 задание: " + BMI("205 pounds", "73 inches"));
         System.out.println("6 задание: " + bugger(39));
-        System.out.println("7 задание: "+ toStarShorthand("abbcсс"));
-        // System.out.println("8 задание: " + doesRhyme("Sam I am!", "Green eggs and ham."));
-        System.out.println("9 задание: " + trouble(33789, 12345337));
+        System.out.println("7 задание: " + toStarShorthand("abbcсс"));
+        System.out.println("8 задание: " + doesRhyme("Sam I am!", "Green eggs and ham."));
+        System.out.println("9 задание: " + trouble(666789, 12345667));
         System.out.println("10 задание: " + countUniqueBooks("AZYWABBCATTTA", 'A'));
     }
 
@@ -150,18 +151,33 @@ public static String toStarShorthand(String s) {
     }
     return res.toString();
 }
+public static boolean doesRhyme(String s1, String s2) {
+        Pattern VOWELS = Pattern.compile("[aeiou]", Pattern.CASE_INSENSITIVE);
+        var s1_m = VOWELS.matcher(s1.subSequence(s1.lastIndexOf(' '), s1.length()));
+        var s2_m = VOWELS.matcher(s2.subSequence(s2.lastIndexOf(' '), s2.length()));
+
+        var s1_b = new StringBuilder();
+        var s2_b = new StringBuilder();
+
+        while (s1_m.find())
+            s1_b.append(s1_m.group().toLowerCase());
+        while (s2_m.find())
+            s2_b.append(s2_m.group().toLowerCase());
+
+        return s1_b.compareTo(s2_b) == 0;
+    }
 public static boolean trouble (int num1, int num2) {
         String num1_str = String.valueOf(num1);
         String num2_str = String.valueOf(num2);
         for (int i = 0; i < num1_str.length(); i++) {
             String current_1 = Character.toString(num1_str.charAt(i)).repeat(3);
-            String current_2 = Character.toString(num2_str.charAt(i)).repeat(2);
-            if (num1_str.split(current_1, -1).length-1 == 1 && num2_str.split(current_2, -1).length-1 == 1) {
+            String current_2 = Character.toString(num1_str.charAt(i)).repeat(2);
+            if (num1_str.contains(current_1) && num2_str.contains(current_2)) {
                 return true;
             }
         }
         return false;
-}
+    }
 public static int countUniqueBooks (String s, char endBook) {
         boolean isOpen = false;
         var s_b = new StringBuilder(s);
